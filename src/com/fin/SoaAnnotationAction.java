@@ -1,9 +1,5 @@
 package com.fin;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -43,56 +39,9 @@ public class SoaAnnotationAction extends AnAction {
 
     private static PsiElementFactory elementFactory;
 
-    class MyClassLoader extends ClassLoader {
-        public Class findClass(String name) {
-            byte[] data = new byte[0];
-            try {
-                data = loadClassData(name);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return defineClass(data, 0, data.length);
-        }
-
-        public byte[] loadClassData(String name) throws IOException {
-            FileInputStream fis = null;
-            byte[] data = null;
-            try {
-
-                File file = new File(
-                        "/Users/binbinsong/repos/server-op-fsc/op-fsc-self-api/target/classes/com/meituan/baobab/fsc/self/event/SelfApprovalStatusEvent.class");
-                fis = new FileInputStream(file);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                int ch = 0;
-                while ((ch = fis.read()) != -1) {
-                    baos.write(ch);
-                }
-                data = baos.toByteArray();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                fis.close();
-            }
-            return data;
-        }
-    }
-
     @Override
     public void actionPerformed(AnActionEvent e) {
         elementFactory = getPsiElementFactory(e);
-
-        /*
-         * URLClassLoader myClassLoader1 = null; Class clazz = null; try { File file = new File(
-         * "/Users/binbinsong/.m2/repository/com/meituan/baobab/fsc/op-fsc-self-api/1.0.12.0-SNAPSHOT/op-fsc-self-api-1.0.12.0-SNAPSHOT-sources.jar"
-         * ); MyClassLoader myClassLoader = new MyClassLoader(); clazz =
-         * myClassLoader.findClass("SelfApprovalStatusEvent");
-         * 
-         * } catch (Exception e1) { Messages.showMessageDialog(e.getProject(), e1.toString() + "**" + e1.getMessage(),
-         * "xxxxxxxxx", Messages.getWarningIcon()); return; } finally {
-         * 
-         * } Messages.showMessageDialog(e.getProject(), clazz != null ? clazz.getSimpleName() : "null", "xxxxxxxxx",
-         * Messages.getWarningIcon()); return;
-         */
 
         PsiElement elementAt = getPsiElement(e);
         final PsiClass psiClass = elementAt == null ? null : PsiTreeUtil.getParentOfType(elementAt, PsiClass.class);
