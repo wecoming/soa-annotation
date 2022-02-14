@@ -1,15 +1,5 @@
 package com.fin;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.fest.util.Arrays;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.google.common.collect.Lists;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -20,6 +10,14 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
+import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author liyuqi, songbinbin
@@ -48,7 +46,7 @@ public class SoaAnnotationAction extends AnAction {
         if (psiClass == null) {
             return;
         }
-        (new WriteCommandAction.Simple(psiClass.getProject(), new PsiFile[] { psiClass.getContainingFile() }) {
+        (new WriteCommandAction.Simple(psiClass.getProject(), new PsiFile[]{psiClass.getContainingFile()}) {
 
             @Override
             protected void run() throws Throwable {
@@ -345,7 +343,7 @@ public class SoaAnnotationAction extends AnAction {
     private String buildTypeDocAnnotation(PsiField[] fields) {
         StringBuilder typeDocStr = new StringBuilder("TypeDoc(\n description = \"\"");
 
-        if (!Arrays.isNullOrEmpty(fields)) {
+        if (ArrayUtils.isNotEmpty(fields)) {
             typeDocStr.append(",\n fields = {");
 
             for (PsiField field : fields) {
@@ -392,7 +390,7 @@ public class SoaAnnotationAction extends AnAction {
      * @return
      */
     private String buildMethodDoc(PsiMethod method, List<PsiParameter> parameterList, PsiReferenceList throwsList,
-            boolean isDeprecated, RequestMethod requestMethod) {
+                                  boolean isDeprecated, RequestMethod requestMethod) {
         StringBuilder annotation = new StringBuilder(
                 "MethodDoc(\n tags = {\n MethodTag.PUBLIC_ACCESS\n },\n displayName = \"...接口\",\n description = \"\"");
         annotation.append(

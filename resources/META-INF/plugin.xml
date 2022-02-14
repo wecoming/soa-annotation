@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>generateSoaAnnotation</id>
     <name>Soa Annotation</name>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <vendor email="" url="">YourCompany</vendor>
 
     <description><![CDATA[
